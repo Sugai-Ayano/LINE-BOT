@@ -13,7 +13,9 @@ class LineBotController < ApplicationController
         case event.type
         when Line::Bot::Event::MessageType::Text
           message = search_and_create_message(event.message['text'])
-           client.reply_message(event['replyToken'], message)
+          #  client.reply_message(event['replyToken'], message)
+          result = client.reply_message(event['replyToken'], message)
+          p result
         end
       end
     end
@@ -24,8 +26,8 @@ class LineBotController < ApplicationController
  
   def client
     @client ||= Line::Bot::Client.new { |config|
-      config.channel_secret = ENV['LINE_CHANNEL_SECRET']
-      config.channel_token = ENV['LINE_CHANNEL_TOKEN']
+      config.channel_secret = ENV["LINE_CHANNEL_SECRET"]
+      config.channel_token = ENV["LINE_CHANNEL_TOKEN"]
     }
   end
 
